@@ -1,5 +1,6 @@
 package org.example.data;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Ball {
@@ -7,14 +8,27 @@ public class Ball {
     private int y;
     private int width;
     private int height;
-    private Color color;
+    private Image image;
 
-    public Ball(int x, int y, int width, int height, Color color) {
+    public Ball(int x, int y, int width, int height, String url) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
-        this.color = color;
+
+
+        ImageIcon ii = new ImageIcon(getClass().getResource("/"+ url));
+
+        this.width = ii.getIconWidth();
+        this.height = ii.getIconHeight();
+
+        this.image = ii.getImage();
+    }
+
+    private Rectangle getBallRectangle(){
+        return new Rectangle(x,y,width, height);
+    }
+
+    public boolean isColided(Rectangle otherObject){
+        return getBallRectangle().intersects(otherObject);
     }
 
     public void move(int steps, Direction direction) {
@@ -66,11 +80,11 @@ public class Ball {
         this.height = height;
     }
 
-    public Color getColor() {
-        return color;
+    public Image getImage() {
+        return image;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setImage(Image image) {
+        this.image = image;
     }
 }

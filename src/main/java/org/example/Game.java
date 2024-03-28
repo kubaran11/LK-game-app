@@ -3,10 +3,7 @@ package org.example;
 import org.example.data.Direction;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 public class Game {
     GameData data;
@@ -20,6 +17,43 @@ public class Game {
 
         data.initialize();
         graphics.render(data);
+
+        graphics.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int clickX = e.getX();
+                int clickY = e.getY() - graphics.getInsets().top;
+                int ballX = data.getBall().getX();
+                int ballWidth = data.getBall().getWidth();
+                int ballY = data.getBall().getY();
+                int ballHeight = data.getBall().getHeight();
+                if (clickX > ballX && clickX < ballX + ballWidth){
+                    if (clickY > ballY && clickY < ballY+ballHeight){
+                        data.getBall().move(50,Direction.RIGHT);
+                    }
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         graphics.addKeyListener(new KeyListener() {
             @Override

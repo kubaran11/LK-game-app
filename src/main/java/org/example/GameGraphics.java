@@ -1,7 +1,10 @@
 package org.example;
 
+import org.example.data.Wall;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.ImageObserver;
 
 public class GameGraphics extends JFrame {
     GameData data;
@@ -27,8 +30,20 @@ public class GameGraphics extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             if (data != null) {
-                g.setColor(data.getBall().getColor());
-                g.fillOval(data.getBall().getX(), data.getBall().getY(), data.getBall().getWidth(), data.getBall().getHeight());
+                g.drawImage(data.getBall().getImage(), data.getBall().getX(), data.getBall().getY(), new ImageObserver() {
+                    @Override
+                    public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                        return false;
+                    }
+                });
+
+                for (Wall wall: data.getWalls()){
+                    if (wall.isActive()) {
+                        g.setColor(wall.getColor());
+                        g.drawLine(wall.getCoordStart().x,wall.getCoordStart().y, wall.getCoordEnd().x, wall.getCoordEnd().y);
+                    }
+
+                }
             }
 
         }
